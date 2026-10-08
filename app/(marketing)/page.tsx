@@ -24,59 +24,60 @@ export default function MarketingPage() {
 
       {/* HERO SECTION */}
       <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden rounded-md">
-        <div className="absolute inset-0 w-full h-full bg-neutral-950 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
-        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
+        <div className="absolute inset-0 w-full h-full bg-[#05060a] z-20 [mask-image:radial-gradient(transparent,black)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.1),transparent_50%)] pointer-events-none z-0" />
+        <Spotlight className="-top-40 left-0 md:left-60 md:-top-20 opacity-30" fill="#06b6d4" />
         <BackgroundBeams />
 
-        <div className="p-4 max-w-7xl mx-auto relative z-10 w-full pt-20 md:pt-0">
-          <div className="flex justify-center mb-6">
-            <div className="px-4 py-1.5 rounded-full border border-neutral-800 text-xs font-semibold text-neutral-400 bg-neutral-900/50 backdrop-blur">
-              DTU Environmental Hacks 2026 - Heat & Water Track
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-7xl font-bold text-center bg-clip-text text-transparent bg-gradient-to-b from-neutral-50 to-neutral-500 mb-6 tracking-tight">
-            Predict floods before <br /> the street submerges.
+        <div className="p-4 max-w-7xl mx-auto relative z-10 w-full">
+          <h1 className="text-4xl md:text-7xl font-semibold text-center text-white mb-6 tracking-[-0.03em] text-balance [text-shadow:0_0_30px_rgba(34,211,238,0.2)]">
+            Predict floods <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-violet-400">before the street submerges.</span>
           </h1>
-          <div className="text-center text-xl md:text-2xl text-neutral-400 mb-8 max-w-3xl mx-auto font-light">
+          <div className="text-center text-lg md:text-xl text-neutral-300 mb-8 max-w-2xl mx-auto leading-relaxed">
             A proactive multi-modal pipeline that fuses CCTV vision and storm-drain acoustics to alert municipal teams before 
-            <FlipWords words={["gridlock.", "disaster.", "submersion.", "failure."]} />
+            <FlipWords words={["gridlock.", "disaster.", "submersion.", "failure."]} className="font-medium text-white" />
           </div>
           
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-8">
-            <Link href="/dashboard">
-              <HoverBorderGradient
-                containerClassName="rounded-full"
-                as="button"
-                className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2 font-medium"
-              >
-                <Activity className="w-5 h-5 text-cyan-400" />
-                <span>Launch Command Center</span>
-              </HoverBorderGradient>
-            </Link>
-            <Link href="/demo">
-              <button className="px-8 py-3 rounded-full border border-white/20 hover:bg-white/10 transition-colors font-medium text-white flex items-center space-x-2">
-                <span>Try Live Demo</span>
-              </button>
+          <div className="flex flex-col items-center gap-6 mt-8">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+              <Link href="/dashboard">
+                <HoverBorderGradient
+                  containerClassName="rounded-full hover:-translate-y-px transition-transform active:scale-95 focus-visible:ring-2 focus-visible:ring-cyan-400"
+                  as="button"
+                  className="dark:bg-neutral-950 bg-white text-black dark:text-white flex items-center space-x-2 font-medium"
+                >
+                  <Activity className="w-5 h-5 text-cyan-400" />
+                  <span>Launch Command Center</span>
+                </HoverBorderGradient>
+              </Link>
+              <Link href="/demo" className="px-8 py-3 rounded-full border border-white/20 hover:bg-white/5 hover:border-white/30 transition-all font-medium text-white flex items-center space-x-2 hover:-translate-y-px active:scale-95 focus-visible:ring-2 focus-visible:ring-cyan-400">
+                  <span>Try Live Demo</span>
+              </Link>
+            </div>
+            
+            <Link href="/dashboard?autoplay=storm" className="text-xs text-neutral-400 hover:text-white transition-colors underline underline-offset-4 flex items-center gap-1">
+              Watch the storm simulate in 10 seconds &rarr;
             </Link>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-20 max-w-4xl mx-auto text-center border-t border-white/10 pt-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-20 max-w-4xl mx-auto text-center border-t border-white/10 pt-8 md:divide-x divide-white/10">
             {[
-              { label: "<2.5s", desc: "Ingestion Latency", icon: <Clock className="w-5 h-5 mx-auto mb-2 text-blue-500" /> },
-              { label: "88.4%", desc: "Pre-submersion Accuracy", icon: <Target className="w-5 h-5 mx-auto mb-2 text-cyan-500" /> },
-              { label: "$0.003", desc: "Cost per node/hour", icon: <Zap className="w-5 h-5 mx-auto mb-2 text-violet-500" /> },
-              { label: "100%", desc: "Serverless", icon: <Server className="w-5 h-5 mx-auto mb-2 text-green-500" /> },
+              { label: "<2.5s", desc: "Ingestion Latency", icon: <Clock className="w-5 h-5 mx-auto mb-2 text-blue-400 opacity-100" /> },
+              { label: "88.4%", desc: "Pre-submersion Accuracy", icon: <Target className="w-5 h-5 mx-auto mb-2 text-cyan-400 opacity-100" /> },
+              { label: "$0.003", desc: "Cost per node/hour", icon: <Zap className="w-5 h-5 mx-auto mb-2 text-violet-400 opacity-100" /> },
+              { label: "100%", desc: "Serverless", icon: <Server className="w-5 h-5 mx-auto mb-2 text-emerald-400 opacity-100" /> },
             ].map((stat, i) => (
               <motion.div 
                 key={i} 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 + i * 0.1 }}
-                className="flex flex-col"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08, duration: 0.3 }}
+                className="flex flex-col py-4"
               >
                 {stat.icon}
-                <span className="text-2xl md:text-3xl font-bold text-white font-mono">{stat.label}</span>
-                <span className="text-xs text-neutral-500 uppercase tracking-wider">{stat.desc}</span>
+                <span className="text-3xl md:text-4xl font-bold text-white font-mono tabular-nums">{stat.label}</span>
+                <span className="text-xs text-neutral-400 uppercase tracking-widest mt-1">{stat.desc}</span>
               </motion.div>
             ))}
           </div>

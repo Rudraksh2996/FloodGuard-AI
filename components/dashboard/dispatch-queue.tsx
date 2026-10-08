@@ -12,8 +12,13 @@ export const DispatchQueue = () => {
 
   const sortedNodes = [...nodes].sort((a, b) => b.fri.score - a.fri.score);
 
-  const handleDispatch = (id: string) => {
+  const handleDispatch = (id: string, nodeName: string) => {
     setDispatched(prev => ({ ...prev, [id]: Date.now() }));
+    import("sonner").then(m => {
+      m.toast.success(`Dispatch signal sent to ${nodeName}`, {
+        description: "Hydro-Jet truck is en route. System is on 15m cooldown.",
+      });
+    });
   };
 
   return (
@@ -64,11 +69,11 @@ export const DispatchQueue = () => {
                 </div>
 
                 {isDispatched ? (
-                  <button disabled className="w-full py-2 bg-neutral-800 text-neutral-500 text-xs rounded font-medium border border-neutral-700">
+                  <button disabled className="w-full py-2 bg-neutral-800 text-neutral-500 text-xs rounded font-medium border border-neutral-700 cursor-not-allowed">
                     Dispatch Sent (15m cooldown)
                   </button>
                 ) : node.fri.score > 0.65 ? (
-                  <button onClick={() => handleDispatch(node.id)} className="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition-colors">
+                  <button onClick={() => handleDispatch(node.id, node.name)} className="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded font-medium transition-colors active:scale-[0.98]">
                     Dispatch Hydro-Jet
                   </button>
                 ) : null}

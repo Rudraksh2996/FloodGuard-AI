@@ -62,13 +62,17 @@ export const FloatingNav = ({
             key={`link=${idx}`}
             href={navItem.link}
             className={cn(
-              "relative dark:text-neutral-50 items-center flex space-x-1 text-neutral-600 dark:hover:text-neutral-300 hover:text-neutral-500"
+              "relative dark:text-neutral-300 items-center flex space-x-1 hover:text-white transition-colors"
             )}
           >
             <span className="block sm:hidden">{navItem.icon}</span>
-            <span className="hidden sm:block text-sm">{navItem.name}</span>
+            <span className="hidden sm:block text-sm font-medium">{navItem.name}</span>
           </Link>
         ))}
+        <Link href="/dashboard" className="border border-white/20 text-sm font-medium relative border-neutral-200 dark:border-white/[0.2] text-white px-4 py-2 rounded-full hover:bg-white/10 transition-colors">
+          <span>Launch App</span>
+          <span className="absolute inset-x-0 w-1/2 mx-auto -bottom-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent h-px" />
+        </Link>
       </motion.div>
     </AnimatePresence>
   );

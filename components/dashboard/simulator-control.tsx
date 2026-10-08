@@ -19,6 +19,35 @@ export const SimulatorControl = () => {
     return () => clearInterval(interval);
   }, [isPlaying, tick]);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.search.includes('autoplay=storm')) {
+      setPreset("STORM");
+      if (!isPlaying) togglePlay();
+      // clean up url without refresh
+      window.history.replaceState({}, '', '/dashboard');
+    }
+  }, [setPreset, isPlaying, togglePlay]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't trigger if user is typing in an input
+      if (document.activeElement?.tagName === "INPUT" || document.activeElement?.tagName === "TEXTAREA") return;
+      
+      switch(e.key) {
+        case '1': setPreset("CLEAR"); break;
+        case '2': setPreset("RAIN"); break;
+        case '3': setPreset("CHOKE"); break;
+        case '4': setPreset("STORM"); break;
+        case ' ': 
+          e.preventDefault();
+          togglePlay(); 
+          break;
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [setPreset, togglePlay]);
+
   // Check for critical nodes to trigger toast
   const [criticalToastShown, setCriticalToastShown] = useState(false);
   
@@ -53,7 +82,7 @@ export const SimulatorControl = () => {
   return (
     <div className="flex items-center space-x-4 bg-neutral-900/50 p-2 rounded-xl border border-white/10 backdrop-blur">
       <div className="flex bg-neutral-950 rounded-lg p-1">
-        {presets.map(p => (
+        {presets.map((p, i) => (
           <button
             key={p.id}
             onClick={() => setPreset(p.id)}
@@ -61,17 +90,20 @@ export const SimulatorControl = () => {
               "px-3 py-1.5 rounded-md flex items-center space-x-2 text-sm transition-colors",
               preset === p.id ? "bg-neutral-800 text-white" : "text-neutral-500 hover:text-neutral-300"
             )}
+            title={`Shortcut: ${i + 1}`}
           >
             {p.icon}
             <span className="hidden md:inline">{p.label}</span>
+            <kbd className="hidden lg:inline-block text-[10px] bg-neutral-900 border border-neutral-700 px-1.5 rounded text-neutral-500">{i + 1}</kbd>
           </button>
         ))}
       </div>
       <button
         onClick={togglePlay}
+        title="Shortcut: Space"
         className={cn(
-          "p-2 rounded-lg flex items-center justify-center transition-colors",
-          isPlaying ? "bg-red-500/20 text-red-500" : "bg-green-500/20 text-green-500"
+          "p-2 rounded-lg flex items-center justify-center transition-colors group relative",
+          isPlaying ? "bg-red-500/20 text-red-500 hover:bg-red-500/30" : "bg-green-500/20 text-green-500 hover:bg-green-500/30"
         )}
       >
         {isPlaying ? <Square className="w-5 h-5" /> : <Play className="w-5 h-5" />}

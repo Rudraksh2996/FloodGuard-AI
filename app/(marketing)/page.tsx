@@ -85,7 +85,7 @@ export default function MarketingPage() {
                   initial={{ opacity: 0, y: 12 }} 
                   animate={{ opacity: 1, y: 0 }} 
                   transition={{ duration: 0.4 }}
-                  className="flex flex-col gap-4 motion-safe:animate-slideUp group-hover:animation-play-state-paused"
+                  className="flex flex-col gap-4 motion-safe:animate-slideUp group-hover:[animation-play-state:paused]"
                 >
                   {[1,2].map(key => (
                   <React.Fragment key={key}>

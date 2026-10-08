@@ -16,7 +16,7 @@ html {
 body {
   color: hsl(var(--foreground));
   background: hsl(var(--background));
-  font-feature-settings: "cv11", "ss01";
+  font-feature-settings: "cv11" 1, "ss01" 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

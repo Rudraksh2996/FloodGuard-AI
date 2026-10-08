@@ -63,7 +63,7 @@ export function HoverBorderGradient({
       }, duration * 1000);
       return () => clearInterval(interval);
     }
-  }, [hovered, clockwise, duration]);
+  }, [hovered, clockwise, duration, rotateDirection]);
   return (
     <Tag
       onMouseEnter={() => setHovered(true)}

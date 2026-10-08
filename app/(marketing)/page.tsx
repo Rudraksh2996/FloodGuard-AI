@@ -3,7 +3,7 @@ import React from "react";
 import { FloatingNav } from "@/components/ui/floating-navbar";
 import { BentoGrid, BentoGridItem } from "@/components/ui/bento-grid";
 import { TracingBeam } from "@/components/ui/tracing-beam";
-import { ShieldAlert, Clock, Activity, Target, Zap, Server, Phone, ArrowRight } from "lucide-react";
+import { Clock, Activity, Target, Zap, Server, Phone, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";

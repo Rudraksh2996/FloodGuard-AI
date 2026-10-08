@@ -4,9 +4,14 @@ import Link from "next/link";
 import { UploadCloud, CheckCircle2, AlertCircle } from "lucide-react";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 
+interface AnalysisResult {
+  labels: { name: string; confidence: number }[];
+  vPooling: number;
+}
+
 export default function DemoPage() {
   const [analyzing, setAnalyzing] = useState(false);
-  const [result, setResult] = useState<null | any>(null);
+  const [result, setResult] = useState<null | AnalysisResult>(null);
 
   const handleUpload = () => {
     setAnalyzing(true);
@@ -54,7 +59,7 @@ export default function DemoPage() {
                 <span>Analysis Complete (800ms)</span>
               </div>
               <div className="grid grid-cols-1 gap-2">
-                {result.labels.map((l: any, i: number) => (
+                {result.labels.map((l, i) => (
                   <div key={i} className="flex justify-between items-center bg-neutral-950 p-3 rounded border border-white/5">
                     <span className={l.confidence > 90 ? "text-cyan-400 font-bold" : "text-neutral-300"}>{l.name}</span>
                     <span className="font-mono text-sm">{l.confidence.toFixed(1)}%</span>

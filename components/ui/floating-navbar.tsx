@@ -4,7 +4,6 @@ import { motion, useScroll, useSpring } from "framer-motion";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Droplet, Search, ShieldAlert, Menu, X } from "lucide-react";
-import { usePathname } from "next/navigation";
 
 export const FloatingNav = ({
   navItems,
@@ -21,7 +20,6 @@ export const FloatingNav = ({
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
   const [activeSection, setActiveSection] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
-  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {

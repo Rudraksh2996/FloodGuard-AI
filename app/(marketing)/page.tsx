@@ -6,6 +6,7 @@ import { TracingBeam } from "@/components/ui/tracing-beam";
 import { ShieldAlert, Clock, Activity, Target, Zap, Server, Phone, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 export default function MarketingPage() {
   const navItems = [

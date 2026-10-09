@@ -52,12 +52,21 @@ export const SimulatorControl = () => {
   const [criticalToastShown, setCriticalToastShown] = useState(false);
   
   useEffect(() => {
+    // Post to API when nodes change
+    nodes.forEach(n => {
+      fetch("/api/nodes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nodeId: n.id.replace("node-", ""), v_pooling: n.vPooling, a_impedance: n.aImpedance, rain_rate: n.rRate })
+      }).catch(() => {});
+    });
+
     const criticalNode = nodes.find(n => n.fri.score > 0.86);
     if (criticalNode && !criticalToastShown) {
       toast(
         <div className="flex flex-col space-y-2 w-full">
           <div className="font-bold text-red-500">[CRITICAL ALERT - FLOODGUARD AI]</div>
-          <div>Node: {criticalNode.id} ({criticalNode.name})</div>
+          <div>Node: {criticalNode.id.replace("node-", "")} ({criticalNode.name})</div>
           <div>Risk Score: {criticalNode.fri.score.toFixed(2)} | Drain Status: {criticalNode.drainStatus}</div>
           <div className="text-xs text-neutral-400 mt-2">Rec. Action: {criticalNode.fri.action}</div>
         </div>,

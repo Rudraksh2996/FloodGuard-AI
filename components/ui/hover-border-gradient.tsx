@@ -25,7 +25,7 @@ export function HoverBorderGradient({
     "TOP"
   );
 
-  const rotateDirection = (
+  const rotateDirection = React.useCallback((
     currentDirection: "TOP" | "LEFT" | "BOTTOM" | "RIGHT"
   ) => {
     const directions: ("TOP" | "LEFT" | "BOTTOM" | "RIGHT")[] = [
@@ -39,7 +39,7 @@ export function HoverBorderGradient({
       ? (currentIndex - 1 + 4) % 4
       : (currentIndex + 1) % 4;
     return directions[nextIndex];
-  };
+  }, [clockwise]);
 
   const movingMap: Record<
     "TOP" | "LEFT" | "BOTTOM" | "RIGHT",

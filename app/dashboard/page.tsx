@@ -1,12 +1,61 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { RiskMap } from "@/components/dashboard/risk-map";
 import { DispatchQueue } from "@/components/dashboard/dispatch-queue";
 import { SimulatorControl } from "@/components/dashboard/simulator-control";
 import Link from "next/link";
 import { Activity, LayoutDashboard, Settings } from "lucide-react";
+import { useSimulatorStore } from "@/store/simulator-store";
+
+function DataSourceToggle() {
+  const { liveMode, setLiveMode } = useSimulatorStore();
+  
+  return (
+    <div className="flex items-center gap-3 ml-4">
+      <div className="bg-neutral-900 rounded-lg p-1 flex border border-white/10">
+        <button 
+          onClick={() => setLiveMode(false)}
+          className={`px-3 py-1 text-xs rounded transition-colors ${!liveMode ? "bg-neutral-700 text-white" : "text-neutral-400 hover:text-white"}`}
+        >
+          Simulation
+        </button>
+        <button 
+          onClick={() => setLiveMode(true)}
+          className={`px-3 py-1 text-xs rounded transition-colors ${liveMode ? "bg-neutral-700 text-white" : "text-neutral-400 hover:text-white"}`}
+        >
+          Live weather
+        </button>
+      </div>
+      
+      {liveMode ? (
+        <div className="flex items-center gap-2 bg-cyan-500/10 border border-cyan-500/20 px-2 py-1 rounded text-cyan-500 text-xs font-bold">
+          <span className="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
+          LIVE · Open-Meteo
+        </div>
+      ) : (
+        <div className="flex items-center gap-2 bg-neutral-800 border border-neutral-700 px-2 py-1 rounded text-neutral-400 text-xs font-bold">
+          SIMULATION
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function DashboardPage() {
+  const [awsConnected, setAwsConnected] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    fetch("/api/nodes")
+      .then(res => {
+        if (res.headers.get("x-data-source") === "dynamodb") {
+          setAwsConnected(true);
+        } else {
+          setAwsConnected(false);
+        }
+      })
+      .catch(() => setAwsConnected(false));
+  }, []);
+
   return (
     <div className="flex h-[100dvh] bg-black overflow-hidden text-sm">
       {/* Sidebar */}
@@ -38,10 +87,19 @@ export default function DashboardPage() {
         <header className="h-16 border-b border-white/10 flex items-center justify-between px-4 flex-shrink-0 bg-neutral-950">
           <div className="flex items-center gap-4">
             <h1 className="font-bold text-lg hidden md:block">Municipal Command Center</h1>
-            <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/20 px-2 py-1 rounded text-green-500 text-xs">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-              System Healthy
-            </div>
+            {awsConnected === true ? (
+              <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/20 px-2 py-1 rounded text-green-500 text-xs">
+                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                AWS connected
+              </div>
+            ) : (
+              <div className="flex items-center gap-2 bg-yellow-500/10 border border-yellow-500/20 px-2 py-1 rounded text-yellow-500 text-xs">
+                <span className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></span>
+                Demo data
+              </div>
+            )}
+            
+            <DataSourceToggle />
           </div>
           <SimulatorControl />
         </header>

@@ -26,3 +26,7 @@ body {
     text-wrap: balance;
   }
 }
+
+.dark-map-tiles .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.95) saturate(0.7);
+}

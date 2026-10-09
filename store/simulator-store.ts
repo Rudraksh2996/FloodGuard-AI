@@ -12,45 +12,87 @@ export interface EvaluatedNode extends NodeState {
   fri: FRIResult;
 }
 
+export interface WeatherData {
+  nodeId: string;
+  tempC: number;
+  humidity: number;
+  rainMmH: number;
+  windKmh: number;
+  weatherCode: number;
+  next6hPrecipMm: number[];
+  precipProbMax: number;
+}
+
 interface SimulatorState {
   preset: Preset;
   isPlaying: boolean;
   nodes: EvaluatedNode[];
+  liveMode: boolean;
+  weatherData: Record<string, WeatherData>;
   setPreset: (preset: Preset) => void;
   togglePlay: () => void;
   tick: () => void;
+  setLiveMode: (live: boolean) => void;
+  updateWeatherData: (data: WeatherData[]) => void;
 }
 
 const PRESET_ORDER: Preset[] = ["CLEAR", "RAIN", "CHOKE", "STORM"];
 
-const evaluateNodes = (preset: Preset): EvaluatedNode[] => {
+function normalizeRain(rainMmH: number): number {
+  if (rainMmH <= 0) return 0;
+  if (rainMmH <= 2.5) return 0 + (rainMmH - 0) * (0.35 - 0) / (2.5 - 0);
+  if (rainMmH <= 7.5) return 0.35 + (rainMmH - 2.5) * (0.65 - 0.35) / (7.5 - 2.5);
+  if (rainMmH <= 15) return 0.65 + (rainMmH - 7.5) * (0.85 - 0.65) / (15 - 7.5);
+  if (rainMmH <= 30) return 0.85 + (rainMmH - 15) * (1.0 - 0.85) / (30 - 15);
+  return 1.0;
+}
+
+const evaluateNodes = (preset: Preset, liveMode: boolean, weatherData: Record<string, WeatherData>): EvaluatedNode[] => {
   return DELHI_NODES.map(node => {
     const state = getPresetState(preset, node.id);
-    const fri = calculateFRI(state.vPooling, state.aImpedance, state.rRate);
-    return { ...node, ...state, fri };
+    let rRate = state.rRate;
+    
+    if (liveMode && weatherData[node.id]) {
+      rRate = normalizeRain(weatherData[node.id].rainMmH);
+    }
+    
+    const fri = calculateFRI(state.vPooling, state.aImpedance, rRate);
+    return { ...node, ...state, rRate, fri };
   });
 };
 
 export const useSimulatorStore = create<SimulatorState>((set, get) => ({
   preset: "CLEAR",
   isPlaying: false,
-  nodes: evaluateNodes("CLEAR"),
+  liveMode: false,
+  weatherData: {},
+  nodes: evaluateNodes("CLEAR", false, {}),
   setPreset: (preset) => {
-    set({ preset, nodes: evaluateNodes(preset) });
+    const { liveMode, weatherData } = get();
+    set({ preset, nodes: evaluateNodes(preset, liveMode, weatherData) });
   },
   togglePlay: () => {
     set((state) => ({ isPlaying: !state.isPlaying }));
   },
   tick: () => {
-    const { preset, isPlaying } = get();
+    const { preset, isPlaying, liveMode, weatherData } = get();
     if (!isPlaying) return;
     
     const currentIndex = PRESET_ORDER.indexOf(preset);
     if (currentIndex < PRESET_ORDER.length - 1) {
       const nextPreset = PRESET_ORDER[currentIndex + 1];
-      set({ preset: nextPreset, nodes: evaluateNodes(nextPreset) });
+      set({ preset: nextPreset, nodes: evaluateNodes(nextPreset, liveMode, weatherData) });
     } else {
       set({ isPlaying: false });
     }
+  },
+  setLiveMode: (liveMode) => {
+    const { preset, weatherData } = get();
+    set({ liveMode, nodes: evaluateNodes(preset, liveMode, weatherData) });
+  },
+  updateWeatherData: (data) => {
+    const { preset, liveMode } = get();
+    const weatherData = data.reduce((acc, curr) => ({ ...acc, [curr.nodeId]: curr }), {} as Record<string, WeatherData>);
+    set({ weatherData, nodes: evaluateNodes(preset, liveMode, weatherData) });
   }
 }));

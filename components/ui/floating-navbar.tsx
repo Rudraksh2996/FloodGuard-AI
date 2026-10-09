@@ -106,9 +106,8 @@ export const FloatingNav = ({
         </div>
       </header>
 
-      {/* Mobile Menu Sheet */}
       {menuOpen && (
-        <div className="fixed inset-0 z-[4999] bg-black/95 backdrop-blur-3xl pt-20 px-6 flex flex-col gap-6 lg:hidden">
+        <div className="fixed inset-0 z-[4999] bg-black/95 backdrop-blur-3xl pt-20 px-6 flex flex-col gap-6 lg:hidden overflow-y-auto pb-10">
           {navItems.map((item, idx) => (
             <Link 
               key={idx} 

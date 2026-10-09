@@ -78,7 +78,7 @@ export default function MarketingPage() {
             </div>
 
             {/* RIGHT COLUMN: PREVIEW MASONRY */}
-            <div className="relative w-[115%] h-[400px] lg:h-[620px] pointer-events-none select-none aria-hidden" style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 22%), linear-gradient(to top, transparent 0%, black 15%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 22%), linear-gradient(to top, transparent 0%, black 15%)', WebkitMaskComposite: 'source-in', maskComposite: 'intersect' }}>
+            <div className="relative w-full lg:w-[115%] h-[360px] sm:h-[400px] lg:h-[620px] pointer-events-none select-none aria-hidden" style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 22%), linear-gradient(to top, transparent 0%, black 15%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 22%), linear-gradient(to top, transparent 0%, black 15%)', WebkitMaskComposite: 'source-in', maskComposite: 'intersect' }}>
               <div className="absolute inset-0 grid grid-cols-1 lg:grid-cols-2 gap-4 motion-reduce:transform-none">
                 {/* Column 1 */}
                 <motion.div 
@@ -170,14 +170,14 @@ export default function MarketingPage() {
               { label: "Cost per node/hour", value: "$0.003", icon: <Zap className="w-[18px] h-[18px] text-violet-400 opacity-100" /> },
               { label: "Serverless", value: "100%", icon: <Server className="w-[18px] h-[18px] text-emerald-400 opacity-100" /> },
             ].map((stat, i) => (
-              <div key={i} className={cn("py-8 px-6 flex flex-col gap-3", i % 2 !== 0 && "border-l border-white/10", i > 1 && "lg:border-l lg:border-white/10", i === 2 && "border-l-0 lg:border-l", i === 0 && "lg:pl-0 pl-4")}>
-                <div className="w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+              <div key={i} className={cn("py-6 lg:py-8 px-4 lg:px-6 flex flex-col gap-2 lg:gap-3", i % 2 !== 0 && "border-l border-white/10", i > 1 && "border-t border-white/10 lg:border-t-0", i > 0 && "lg:border-l lg:border-white/10", i === 0 && "lg:pl-0")}>
+                <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
                   {stat.icon}
                 </div>
-                <div className="font-mono text-3xl lg:text-4xl font-semibold tabular-nums text-white tracking-tight">
+                <div className="font-mono text-2xl sm:text-3xl lg:text-4xl font-semibold tabular-nums text-white tracking-tight">
                   {stat.value}
                 </div>
-                <div className="text-xs uppercase tracking-[0.14em] font-medium text-neutral-400">
+                <div className="text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.14em] font-medium text-neutral-400">
                   {stat.label}
                 </div>
               </div>

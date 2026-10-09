@@ -22,7 +22,7 @@ export const DispatchQueue = () => {
   };
 
   return (
-    <div className="flex flex-col h-full bg-neutral-900/40 border-l border-white/10 w-full md:w-[350px] flex-shrink-0">
+    <div className="flex flex-col h-1/2 md:h-full bg-neutral-900/40 border-t md:border-t-0 md:border-l border-white/10 w-full md:w-[350px] flex-shrink-0">
       <div className="p-4 border-b border-white/10 flex justify-between items-center">
         <h3 className="font-bold">Priority Dispatch</h3>
         <span className="text-xs bg-red-500/20 text-red-500 px-2 py-1 rounded">Live Queue</span>

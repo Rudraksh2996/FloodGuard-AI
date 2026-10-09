@@ -8,7 +8,7 @@ import { Activity, LayoutDashboard, Settings } from "lucide-react";
 
 export default function DashboardPage() {
   return (
-    <div className="flex h-screen bg-black overflow-hidden text-sm">
+    <div className="flex h-[100dvh] bg-black overflow-hidden text-sm">
       {/* Sidebar */}
       <div className="w-16 md:w-64 border-r border-white/10 bg-neutral-950 flex flex-col justify-between">
         <div>

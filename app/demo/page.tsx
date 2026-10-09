@@ -31,7 +31,7 @@ export default function DemoPage() {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-950 flex flex-col items-center justify-center p-4">
+    <div className="min-h-[100dvh] bg-neutral-950 flex flex-col items-center justify-center p-4">
       <Link href="/" className="absolute top-8 left-8 text-neutral-500 hover:text-white">
         &larr; Back to Home
       </Link>

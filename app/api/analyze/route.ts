@@ -1,22 +1,32 @@
 import { NextResponse } from "next/server";
 import { RekognitionClient, DetectLabelsCommand } from "@aws-sdk/client-rekognition";
 
+const requiredEnvVars = ['AWS_REGION', 'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY', 'SNS_TOPIC_ARN', 'DDB_TABLE'];
+const missing = requiredEnvVars.filter(key => !process.env[key]);
+if (missing.length > 0) {
+  console.warn(`[API Startup] Missing required AWS environment variables: ${missing.join(', ')}`);
+}
+
 const client = new RekognitionClient({
-  region: process.env.AWS_REGION,
+  region: process.env.AWS_REGION || "ap-south-1",
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
   },
 });
 
 export async function POST(req: Request) {
   try {
     const { imageBase64 } = await req.json();
-    const buffer = Buffer.from(imageBase64, "base64");
-
-    if (buffer.length > 5 * 1024 * 1024) {
-      return NextResponse.json({ success: false, error: "Image too large" }, { status: 400 });
+    if (!imageBase64) {
+      return NextResponse.json({ success: false, error: "No image provided" }, { status: 400 });
     }
+    
+    if (missing.includes('AWS_ACCESS_KEY_ID') || missing.includes('AWS_SECRET_ACCESS_KEY')) {
+      return NextResponse.json({ success: false, error: "Server is not configured for AWS" }, { status: 503 });
+    }
+
+    const buffer = Buffer.from(imageBase64, "base64");
 
     try {
       const response = await client.send(
@@ -37,10 +47,22 @@ export async function POST(req: Request) {
         flood_detected: isWater
       });
     } catch (rekErr: unknown) {
-      if (rekErr instanceof Error && rekErr.name === 'InvalidImageFormatException') {
-        return NextResponse.json({ success: false, error: "Invalid image format" }, { status: 400 });
+      if (rekErr instanceof Error) {
+        console.error(`[AWS Rekognition Error] ${rekErr.name}`);
+        if (rekErr.name === 'InvalidImageFormatException') {
+          return NextResponse.json({ success: false, error: "Unsupported image format, use JPEG or PNG" }, { status: 400 });
+        }
+        if (rekErr.name === 'ImageTooLargeException') {
+          return NextResponse.json({ success: false, error: "Image size is too large" }, { status: 413 });
+        }
+        if (rekErr.name === 'AccessDeniedException') {
+          return NextResponse.json({ success: false, error: "AWS permission problem" }, { status: 502 });
+        }
+        if (rekErr.name === 'CredentialsProviderError' || rekErr.message.includes('credential')) {
+           return NextResponse.json({ success: false, error: "Server is not configured for AWS" }, { status: 503 });
+        }
       }
-      throw rekErr;
+      return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });
     }
   } catch {
     return NextResponse.json({ success: false, error: "Internal Server Error" }, { status: 500 });

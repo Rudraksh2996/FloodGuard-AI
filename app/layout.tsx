@@ -17,8 +17,6 @@ export const metadata: Metadata = {
   description: "Predict floods before the street submerges.",
 };
 
-import { CapacitorHardwareBack } from "@/components/capacitor-hardware-back";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -32,7 +30,6 @@ export default function RootLayout({
       <body
         className={`${inter.className} ${geistMono.variable} antialiased dark:bg-black dark:text-neutral-50 selection:bg-cyan-500/30 selection:text-white`}
       >
-        <CapacitorHardwareBack />
         {children}
         <Toaster theme="dark" position="bottom-right" />
       </body>

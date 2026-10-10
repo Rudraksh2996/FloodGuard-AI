@@ -6,10 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "android:sync": "cap sync android",
-    "android:open": "cap open android",
-    "android:build": "cd android && gradlew assembleDebug"
+    "lint": "next lint"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.1148.0",
@@ -17,12 +14,6 @@
     "@aws-sdk/client-sns": "^3.1148.0",
     "@aws-sdk/client-sts": "^3.1148.0",
     "@aws-sdk/lib-dynamodb": "^3.1148.0",
-    "@capacitor/android": "^8.5.3",
-    "@capacitor/app": "^8.1.2",
-    "@capacitor/cli": "^8.5.3",
-    "@capacitor/core": "^8.5.3",
-    "@capacitor/splash-screen": "^8.0.2",
-    "@capacitor/status-bar": "^8.0.4",
     "@types/leaflet": "^1.9.22",
     "clsx": "^2.1.1",
     "dotenv": "^18.0.6",
@@ -39,7 +30,6 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@capacitor/assets": "^3.0.5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

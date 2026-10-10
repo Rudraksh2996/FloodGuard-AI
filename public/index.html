@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>FloodGuard AI - Offline</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000000;
+      color: #ffffff;
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      color: #22d3ee;
+    }
+    .message {
+      color: #a3a3a3;
+      margin-bottom: 32px;
+      max-width: 80%;
+      line-height: 1.5;
+    }
+    .retry-btn {
+      background-color: #22d3ee;
+      color: #000000;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .retry-btn:active {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">FloodGuard AI</div>
+  <div class="message">No connection. Reconnect to reach the command center.</div>
+  <button class="retry-btn" onclick="window.location.reload()">Retry Connection</button>
+</body>
+</html>

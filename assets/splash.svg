@@ -1,0 +1,8 @@
+<svg width="2732" height="2732" viewBox="0 0 2732 2732" xmlns="http://www.w3.org/2000/svg">
+  <rect width="2732" height="2732" fill="#000000" />
+  <g transform="translate(1066, 1066) scale(2.5)">
+    <path d="M120 12C120 12 40 80 40 140C40 184.183 75.8172 220 120 220C164.183 220 200 184.183 200 140C200 80 120 12 120 12Z" fill="#22d3ee" />
+    <path d="M120 60C120 60 80 100 80 140C80 162.091 97.9086 180 120 180C142.091 180 160 162.091 160 140C160 100 120 60 120 60Z" fill="#000000" />
+  </g>
+  <text x="1366" y="1800" font-family="sans-serif" font-size="120" font-weight="bold" fill="#ffffff" text-anchor="middle">FloodGuard AI</text>
+</svg>

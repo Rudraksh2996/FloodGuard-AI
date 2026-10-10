@@ -57,7 +57,7 @@ export default function DashboardPage() {
   }, []);
 
   return (
-    <div className="flex h-[100dvh] bg-black overflow-hidden text-sm">
+    <div className="flex h-[100dvh] bg-black overflow-hidden text-sm pt-safe pb-safe pl-safe pr-safe">
       {/* Sidebar */}
       <div className="w-16 md:w-64 border-r border-white/10 bg-neutral-950 flex flex-col justify-between">
         <div>

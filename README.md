@@ -98,8 +98,35 @@ Before using the application for the first time, you must seed the initial Dynam
 - \`POST /api/analyze\`: Submits a base64 encoded image to Rekognition, returns tags and a calculated pooling score.
 - \`POST /api/dispatch\`: Triggers an SNS alert for a specific node if the FRI is critical, and engages a 15-minute cooldown via DynamoDB to prevent duplicate dispatches.
 
-## Deployment
+## AWS Amplify Deployment
 
-If deploying to **Vercel** or **AWS Amplify Hosting**:
-- Do **not** commit your `.env.local` file or access CSV. 
-- You must add all 5 AWS environment variables securely in your host's environment settings panel.
+This project is configured for **AWS Amplify Hosting (Next.js SSR)** using an IAM compute role.
+
+1. **Environment Variables**: Add these 3 environment variables in the Amplify console:
+   - `APP_AWS_REGION` (e.g. `ap-south-1`)
+   - `SNS_TOPIC_ARN`
+   - `DDB_TABLE`
+   *(Do NOT add `AWS_ACCESS_KEY_ID` or `AWS_SECRET_ACCESS_KEY` in production. The app uses the Amplify compute role.)*
+
+2. **IAM Compute Role**: Ensure your Amplify App is assigned a Service Role (Compute Role) with the IAM policy listed above (with your AWS Account ID).
+
+3. **Verify Deployment**: Once deployed, visit `https://<your-amplify-domain>/api/health` to confirm the environment variables are set, credentials are using `default-chain`, and live connectivity to DynamoDB and SNS is `OK`.
+
+## Android App
+
+FloodGuard AI includes a native Android app wrapper built with [Capacitor](https://capacitorjs.com/). Since the app acts as a native shell loading the live, deployed website, any future updates to the web interface or API will automatically reflect in the app without requiring an APK rebuild!
+
+### Prerequisites
+- **Node.js** (v18+)
+- **JDK 17**
+- **Android SDK** (usually installed via Android Studio)
+
+### How to Rebuild the APK
+1. Ensure your dependencies are synced: `npm run android:sync`
+2. Build the Debug APK: `npm run android:build`
+3. The APK will be generated at `android/app/build/outputs/apk/debug/app-debug.apk`.
+
+### Installation
+Copy the generated APK to your Android device and install it, or drag and drop it into a running Android Emulator.
+
+*(Note: Make sure your device allows installing from unknown sources. No environment secrets are bundled into the APK; it is entirely safe and connects securely to the live server.)*

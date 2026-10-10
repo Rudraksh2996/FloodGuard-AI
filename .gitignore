@@ -37,3 +37,10 @@ next-env.d.ts
 
 *accessKeys*.csv
 *.csv.keys
+
+# Android & Capacitor
+android/.gradle
+android/build
+android/app/build
+android/local.properties
+release/*.apk

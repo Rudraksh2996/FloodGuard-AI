@@ -1,19 +1,15 @@
 import { NextResponse } from "next/server";
-import { RekognitionClient, DetectLabelsCommand } from "@aws-sdk/client-rekognition";
+import { DetectLabelsCommand } from "@aws-sdk/client-rekognition";
 
-const requiredEnvVars = ['AWS_REGION', 'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY', 'SNS_TOPIC_ARN', 'DDB_TABLE'];
+import { rekognitionClient } from "@/lib/aws-config";
+
+const requiredEnvVars = ['SNS_TOPIC_ARN', 'DDB_TABLE'];
 const missing = requiredEnvVars.filter(key => !process.env[key]);
 if (missing.length > 0) {
   console.warn(`[API Startup] Missing required AWS environment variables: ${missing.join(', ')}`);
 }
 
-const client = new RekognitionClient({
-  region: process.env.AWS_REGION || "ap-south-1",
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
-  },
-});
+const client = rekognitionClient;
 
 export async function POST(req: Request) {
   try {
@@ -22,7 +18,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ success: false, error: "No image provided" }, { status: 400 });
     }
     
-    if (missing.includes('AWS_ACCESS_KEY_ID') || missing.includes('AWS_SECRET_ACCESS_KEY')) {
+    if (missing.includes('SNS_TOPIC_ARN') || missing.includes('DDB_TABLE')) {
       return NextResponse.json({ success: false, error: "Server is not configured for AWS" }, { status: 503 });
     }
 

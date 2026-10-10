@@ -1,23 +1,7 @@
 import { NextResponse } from "next/server";
-import { SNSClient, PublishCommand } from "@aws-sdk/client-sns";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, GetCommand, BatchWriteCommand } from "@aws-sdk/lib-dynamodb";
-
-const sns = new SNSClient({
-  region: process.env.AWS_REGION,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-  },
-});
-
-const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({
-  region: process.env.AWS_REGION,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-  },
-}));
+import { PublishCommand } from "@aws-sdk/client-sns";
+import { GetCommand, BatchWriteCommand } from "@aws-sdk/lib-dynamodb";
+import { snsClient as sns, dynamoDbClient as ddb } from "@/lib/aws-config";
 
 export async function POST(req: Request) {
   try {

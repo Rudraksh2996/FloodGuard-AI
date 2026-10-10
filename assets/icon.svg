@@ -1,0 +1,8 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1024" height="1024" fill="#000000" />
+  <g transform="translate(212, 212) scale(2.5)">
+    <!-- Shield/Droplet generic icon -->
+    <path d="M120 12C120 12 40 80 40 140C40 184.183 75.8172 220 120 220C164.183 220 200 184.183 200 140C200 80 120 12 120 12Z" fill="#22d3ee" />
+    <path d="M120 60C120 60 80 100 80 140C80 162.091 97.9086 180 120 180C142.091 180 160 162.091 160 140C160 100 120 60 120 60Z" fill="#000000" />
+  </g>
+</svg>

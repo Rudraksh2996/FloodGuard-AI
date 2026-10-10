@@ -136,8 +136,8 @@ export default function DemoPage() {
   };
 
   return (
-    <div className="min-h-[100dvh] bg-neutral-950 flex flex-col items-center justify-center p-4 py-16">
-      <Link href="/" className="absolute top-8 left-8 text-neutral-500 hover:text-white">
+    <div className="min-h-[100dvh] bg-neutral-950 flex flex-col items-center justify-center p-4 py-16 pt-safe pb-safe pl-safe pr-safe">
+      <Link href="/" className="absolute top-8 left-8 text-neutral-500 hover:text-white pt-safe pl-safe">
         &larr; Back to Home
       </Link>
       
